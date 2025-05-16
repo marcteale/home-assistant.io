@@ -53,7 +53,7 @@ If you have previously set up the Google integration or a Nest integration, you 
 To remove existing credentials:
 
 1. Go to **{% my integrations title="Settings > Devices & services" %}**.
-2. Select the three dots (⋮) menu in the upper right corner.
+2. Select the three dots {% icon "mdi:dots-vertical" %} menu in the upper right corner.
 3. Review the list for any previous Google or Nest integrations.
 4. Remove any existing Google/Nest integration by selecting it and choosing "Delete".
 
@@ -123,6 +123,7 @@ This section configures OAuth Consent, permitting Home Assistant access to your 
      - Click '+ Add users' under 'Test users'.
      - Enter your email address and click Save.
      - Click the "Publish app" button.  You will be warned that *Your app will be available to any user with a Google Account.*  However, only the test users you've supplied will actually be able to interact with your app.
+     - Click the "Publish app" button. You will be warned that *Your app will be available to any user with a Google Account.*  However, only the test users you've supplied will actually be able to interact with your app. Your data is safe.
 
     ![Screenshot of OAuth consent screen test users](/images/integrations/nest/oauth_consent_test_users.png)
 
@@ -188,7 +189,7 @@ Now that you have authentication configured, you will create a Nest Device Acces
 
     ![Screenshot of naming a project](/images/integrations/nest/project_name.png)
 
-6. Next you will be asked for an **OAuth client ID**.  This is the ID you created in the previous step. Enter it and click **Next**.
+6. Next you will be asked for an **OAuth client ID**. This is the ID you created in the previous step. Enter it and click **Next**.
 
     ![Screenshot of Device Access Console OAuth client ID](/images/integrations/nest/device_access_oauth_client_id.png)
 
@@ -216,7 +217,7 @@ If you have used events in the past, your Device Access Project may already have
 
 4. Select **Create**.
 
-5. You now have the **Topic Name** needed by the Device Access Console and Home Assistant. The full **Topic Name** will contain your Cloud Project ID and the **Topic ID**, e.g.`projects/<cloud console id>/topics/home-assistant-nest`.
+5. You now have the **Topic Name** needed by the Device Access Console and Home Assistant. The full **Topic Name** will contain your Cloud Project ID and the **Topic ID**, for example, `projects/<cloud console id>/topics/home-assistant-nest`.
 
 6. Next, you need to give the Device Access Console permission to publish to your Topic. From the Pub/Sub Topic page, select **Add Principal**.
 
@@ -224,7 +225,7 @@ If you have used events in the past, your Device Access Project may already have
 
 7. In **New Principals** enter `sdm-publisher@googlegroups.com`
 
-8. Click **Select a role** under **Assign roles**.  Scroll to **Pub/Sub**, then **Pub/Sub Publisher**.  Click **Save**.
+8. Click **Select a role** under **Assign roles**. Scroll to **Pub/Sub**, then **Pub/Sub Publisher**. Click **Save**.
 
     ![Screenshot of OAuth confirmation](/images/integrations/nest/cloud_pubsub_add_principal_role.png)
 
@@ -252,7 +253,7 @@ Next, we will authorize Home Assistant to access your account by generating an *
 
 See [Troubleshooting](#troubleshooting) below for steps to resolve the common misconfigurations that result in errors such as *Can't link...* or *Error 400* from Google.
 
-1. If you haven't already, begin the setup flow in Home Assistant.  {% my config_flow_start badge domain=page.ha_domain %}
+1. If you haven't already, begin the setup flow in Home Assistant. {% my config_flow_start badge domain=page.ha_domain %}
 
 2. A new tab will open once you have entered all your project configuration data into Home Assistant.  You will be prompted to choose a Google account. Use the same developer account you configured above.
 
@@ -797,6 +798,6 @@ This integration follows standard integration removal. No extra steps are requir
 {% include integrations/remove_device_service.md %}
 
 After deleting the integration, you may also want to remove any unused information in
-your Google Account that was added during the set up process.  See the integration
+your Google Account that was added during the set up process. See the integration
 configuration instructions for how to find where OAuth credentials and Device Access projects
 are configured.
