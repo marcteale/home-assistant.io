@@ -34,13 +34,13 @@ There is currently support for the following device types within Home Assistant:
 - [Camera](#camera)
 - [Event](#event)
 
-Cameras and doorbells use [Automation and device triggers](#automation-and-device-triggers) for events and a [media source](#media-source) for capturing media images on supported devices. Other device types like Smoke and CO Alarms or Security systems are not currently supported by the SDM API.
+Cameras and doorbells use [device triggers](#device-triggers) for events and a [media source](#media-source) for capturing media images on supported devices. Other device types like Smoke and CO Alarms or Security systems are not currently supported by the SDM API.
 
 You are in control of the information and capabilities exposed to Home Assistant. You can authorize a single device, multiple devices, or different levels of functionality such as motion events, live streams, for any particular device. The integration is flexible enough to adapt based on what you allow.
 
-# Prerequisites
+## Prerequisites
 
-- The Nest Device Access Console Pub/Sub setup process has changed as of January 23rd 2025. **Please make sure you are using the latest version of Home Assistant.**
+- The Nest Device Access Console Pub/Sub setup process changed in January 2025. **Please make sure you are using the latest version of Home Assistant.**
 
 - The Nest Smart Device Management (SDM) API **requires a US$5 fee**. Before buying, make sure your device is [supported](https://developers.google.com/nest/device-access/supported-devices).
 
@@ -51,6 +51,7 @@ You are in control of the information and capabilities exposed to Home Assistant
 If you have previously set up the Google integration or a Nest integration, you should remove any existing Google integration credentials before proceeding.
 
 To remove existing credentials:
+
 1. Go to **{% my integrations title="Settings > Devices & services" %}**.
 2. Select the three dots (⋮) menu in the upper right corner.
 3. Review the list for any previous Google or Nest integrations.
@@ -183,7 +184,7 @@ Now that you have authentication configured, you will create a Nest Device Acces
 4. Now the [Device Access Console](https://console.nest.google.com/device-access/project-list) should be visible. Select  **Create project**.
 
 5. Give your Device Access project a name and select **Next**.
- 
+
     ![Screenshot of naming a project](/images/integrations/nest/project_name.png)
 
 6. Next you will be asked for an **OAuth client ID**.  This is the ID you created in the previous step. Enter it and click **Next**.
@@ -354,7 +355,6 @@ support capturing media (snapshots or clips) through device triggers. The table 
 | Nest Doorbell (wired, 2nd gen)                                                   |      WebRTC       |     Motion<br>Person<br>Chime      |        Clip Preview (mp4, gif)         |
 | Nest Hub Max                                                                     | RTSP<br>Recording |   Motion<br>Person<br>Sound<br>    |             Snapshot (jpg)             |
 
-
 ## Event
 
 All doorbells and cameras support event entities. See the [Event](https://www.home-assistant.io/integrations/event/) integration documentation for more about how to use event entities in automations.
@@ -428,7 +428,6 @@ Another thing that may not be intuitive, is that seeing the event in your device
 However, if you are getting push notifications, the settings are likely working.
 
 Note: The exact settings and effect they have on the feed may vary by camera model or app version.
-
 
 If you are still not getting notifications, you can read this [troubleshooting guide from Google]<!-- textlint-disable -->
 (https://support.google.com/googlenest/answer/9230439#zippy=%2Cyour-camera-detected-something-but-you-didnt-get-a-camera-alert)
@@ -587,7 +586,7 @@ during the account linking process means that the Google Account used cannot acc
 - You can organize your homes and devices in the Google Home App and [share homes and devices](https://support.google.com/googlenest/answer/9155535) across accounts. Ensure the account being used has access to the Home.
 - If you formerly had a Nest account, ensure that it is migrated successfully to a Google Account. If your Google Home has multiple members, please note that the individual who initially set up the home must complete the migration of their Nest Account to a Google Account before you can establish a connection with Home Assistant.
 
-#### Symptom: Error 400: redirect_uri_mismatch 
+#### Symptom: Error 400: redirect_uri_mismatch
 
 ##### Description
 
@@ -632,7 +631,7 @@ Make sure the credential in the [Google Cloud Console](https://console.developer
 
 ##### Description
 
-According to Google's [Partner Connections Manager Error Reference](https://developers.google.com/nest/device-access/reference/errors/pcm), this error covers all other undocumented internal errors within Partner Connections. One of the issues that cause this error is synchronization problems between the Nest and Google Home apps. 
+According to Google's [Partner Connections Manager Error Reference](https://developers.google.com/nest/device-access/reference/errors/pcm), this error covers all other undocumented internal errors within Partner Connections. One of the issues that cause this error is synchronization problems between the Nest and Google Home apps.
 
 ##### Resolution
 
@@ -672,7 +671,7 @@ You may now repeat the integration setup and account linking steps.
 The error *Error: invalid_client no application name* means the OAuth Consent screen has not been
 fully configured for the project and needs additional information.
 
-#### Resolution
+##### Resolution
 
 Visit the [OAuth Consent Screen](https://console.developers.google.com/apis/credentials/consent) and
 enter the required fields (App Name, Support Email, Developer Email) and leave everything else as default.
@@ -695,7 +694,7 @@ You can add or remove devices and permissions granted to Home Assistant in the N
 There have been reports that Thermostats may not appear or are unavailable due to a bug in the SDM API. A common fix to get the API to work again is to try these steps:
 
 - Restart the Thermostat device. See [How to restart or reset a Nest thermostat](https://support.google.com/googlenest/answer/9247296) for more details.
-- In the official Nest app or on https://home.nest.com: Move the Thermostat to a different or fake/temporary room.
+- In the official Nest app or on [https://home.nest.com]: Move the Thermostat to a different or fake/temporary room.
 - Reload the integration in Home Assistant:  Navigate to {% my integrations title="**Settings** > **Devices & services**" %}, select {% icon "mdi:dots-vertical" %} next to *Nest* and choose **Reload**.
 
 #### Symptom: Devices do not appear when the API is disabled
@@ -732,7 +731,7 @@ You may be asked to reauthenticate more often than you expect, such as every 7 d
 The integration fails to start because it attempts to create a subscriber with a subscription
 name that is not found in your Google Account. By default, Google pub/sub subscriptions will be deleted after 31 days of inactivity ([reference](https://cloud.google.com/knowledge/kb/pub-sub-subscriptions-disappeared-without-any-deletion-logs-000004170)). If this happens, then the integration will fail, and you will see the preceding log line in your Home Assistant logs.
 
-##### Resolution.
+##### Resolution
 
 To repair the subscriber:
 
