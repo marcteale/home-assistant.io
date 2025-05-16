@@ -74,56 +74,57 @@ To add the **Nest** integration to your Home Assistant, use this My Button:
 
 {% enddetails %}
 
-The integration setup steps will walk you through the process of configuring a Google Cloud Project, Device Access Project, and finally link your account to Home Assistant. Make sure you are running the most recent version of Home Assistant.
+The integration setup steps will walk you through the process of configuring Google Cloud and Device Access projects, then linking your account to Home Assistant. Make sure you are running the most recent version of Home Assistant.
 
 {% details "Define Google Cloud Project [Cloud Console]" %}
 
-By the end of this section you will have a Cloud Project with the necessary APIs enabled
+This section creates your Google Cloud Project and enables the required APIs.
 
 1. Go to the [Google Cloud Console](https://console.developers.google.com/apis/credentials).
 
-2. If this is your first time here, you likely need to create a new Google Cloud project. Click **Create Project** then **New
-Project**.
+2. If this is your first time here, you likely need to create a new Google Cloud project. Click **Create Project** and then **New Project**.
+
     ![Screenshot of APIs and Services Cloud Console with no existing project](/images/integrations/nest/api_project_needed.png)
 
-3. Give your Cloud Project a name then click **Create**.
+3. Give your project a name then click **Create**.
 
-4. You will need to hold on to your *Cloud Project ID* to enable a subscription to receive updates from devices. Visit the [Cloud Console](https://console.cloud.google.com/home/dashboard) and copy the *Project ID* needed by Home Assistant.
+4. Visit the [Cloud Console](https://console.cloud.google.com/home/dashboard) and take note of the *Project ID*.  You will need this value again later.
 
     ![Screenshot of success](/images/integrations/nest/console_project_id.png)
 
-5. Go to [APIs & Services > Library](https://console.cloud.google.com/apis/library) where you can enable APIs.
+5. Go to [APIs & Services > Library](https://console.cloud.google.com/apis/library).  This is where you enable the specific APIs required by the Google Nest integration.
 
-6. From the API Library search for [Smart Device management](https://console.cloud.google.com/apis/library/smartdevicemanagement.googleapis.com) and click **Enable**.
+6. Search the API Library for [Smart Device management](https://console.cloud.google.com/apis/library/smartdevicemanagement.googleapis.com) and click **Enable**.
 
     ![Screenshot of Search for SDM API](/images/integrations/nest/enable_sdm_api.png)
 
-7. From the API Library search for [Cloud Pub/Sub API](https://console.developers.google.com/apis/library/pubsub.googleapis.com) in the Cloud Console and click **Enable**.
+7. Search the API Library for [Cloud Pub/Sub API](https://console.developers.google.com/apis/library/pubsub.googleapis.com) click **Enable**.
 
-You now have a cloud project ready for the next section to configure authentication with OAuth.
+You are now ready to configure OAuth authentication in the next section.
 
 {% enddetails %}
 
 {% details "OAuth Consent [Cloud Console]" %}
 
-This section configures OAuth Consent, which permits Home Assistant access to your cloud project.
+This section configures OAuth Consent, permitting Home Assistant access to your cloud project.
 
 1. Open the [Google Auth Platform project configuration wizard](https://console.cloud.google.com/auth/overview/create).
 
 2. Enter the following as you progress through the steps in the *App Information* process:
-     - **App name:** A name for your app.
-     - **User support email:**  Select your email address from the dropdown.
-     - **Audience:** External
-     - **Contact Information:** The same email address from above.
-     - Check the box to agree to the user data policy.
+     - App name: A name for your app.
+     - User support email: Select your email address from the dropdown.
+     - Audience: External
+     - Contact Information: The same email address from above.
+     - Agree to the user data policy.
      - Click Continue and then Create.
 
 3. Define the audience for your app by clicking [Audience](https://console.cloud.google.com/auth/audience) in the left hand navigation.
      - Click '+ Add users' under 'Test users'.
      - Enter your email address and click Save.
-     - Click the "Publish app" button.  You will be warned that *Your app will be available to any user with a Google Account.*  However, only the test users you've supplied will actually be able to interact with your app.  Your data is safe.
+     - Click the "Publish app" button.  You will be warned that *Your app will be available to any user with a Google Account.*  However, only the test users you've supplied will actually be able to interact with your app.
 
     ![Screenshot of OAuth consent screen test users](/images/integrations/nest/oauth_consent_test_users.png)
+
      - Click Confirm.
 
 4. Make certain your app's publishing status is set to "In production," or you will be logged out every seven days.
@@ -134,7 +135,7 @@ This section configures OAuth Consent, which permits Home Assistant access to yo
 
 {% details "OAuth Application Credentials [Cloud Console]" %}
 
-This section creates the *Client ID* and *Client Secret* values that are required for Application Credentials setup.  The process uses *Web Application Auth* with *My Home Assistant* to handle Google's strict URL validation rules.
+This section creates the *Client ID* and *Client Secret* values that are required for Application Credentials setup.
 
 1. Navigate to the [Credentials](https://console.cloud.google.com/apis/credentials) page and click **Create Credentials**.
 
@@ -148,9 +149,9 @@ This section creates the *Client ID* and *Client Secret* values that are require
 
 4. Pick a name for your credential.
 
-5. Click "+ Add URI" under **Authorized redirect URIs** end enter `https://my.home-assistant.io/redirect/oauth`
+5. Click *+ Add URI* under **Authorized redirect URIs** end enter `https://my.home-assistant.io/redirect/oauth`
 
-6. Click *Create* to create the credential.
+6. Click *Create*.
 
     ![Screenshot of creating OAuth credentials](/images/integrations/nest/oauth_redirect_uri.png)
 
@@ -158,7 +159,7 @@ This section creates the *Client ID* and *Client Secret* values that are require
 
     ![Screenshot of OAuth Client ID and Client Secret](/images/integrations/nest/oauth_created.png)
 
-8. You now have the *OAuth Client ID* and *OAuth Client Secret* needed by Home Assistant.  See [Application Credentials](/integrations/application_credentials) for more general detail about how Home Assistant manages credentials.  Make careful note of these values, you will need them later.
+8. You now have the *OAuth Client ID* and *OAuth Client Secret* needed by Home Assistant.  Make note of these values, as you will need them again later.
 
 {% enddetails %}
 
@@ -198,7 +199,7 @@ Now that you have authentication configured, you will create a Nest Device Acces
 
 {% details "Enable events and Pub/Sub topic [Device Access & Cloud Console]" %}
 
-The Nest Device Access Console Pub/Sub setup process has changed as of January 23rd 2025. **Please make sure you are using the latest version of Home Assistant**.
+The Nest Device Access Console Pub/Sub setup process was changed in January 2025. **Please make sure you are using the latest version of Home Assistant**.
 
 This section describes how to configure your Device Access Project to publish events for devices in your home. Home Assistant and the Device Access Project must be configured to use the *Topic Name*, otherwise you will not receive events.
 
@@ -212,11 +213,11 @@ If you have used events in the past, your Device Access Project may already have
 
      ![Screenshot of OAuth confirmation](/images/integrations/nest/cloud_pubsub_create_topic.png)
 
-4. Select **Create** to create the topic.
+4. Select **Create**.
 
 5. You now have the **Topic Name** needed by the Device Access Console and Home Assistant. The full **Topic Name** will contain your Cloud Project ID and the **Topic ID**, e.g.`projects/<cloud console id>/topics/home-assistant-nest`.
 
-6. Next, you need to give the Device Access Console permission to publish to your Topic. From the Pub/Sub Topic page select **Add Principal**.
+6. Next, you need to give the Device Access Console permission to publish to your Topic. From the Pub/Sub Topic page, select **Add Principal**.
 
      ![Screenshot of OAuth confirmation](/images/integrations/nest/cloud_pubsub_add_principal.png)
 
@@ -232,9 +233,9 @@ If you have used events in the past, your Device Access Project may already have
 
      ![Screenshot of OAuth confirmation](/images/integrations/nest/device_access_topic_disabled.png)
 
-11. Select *...* next to **Pub/Sub topic**, then **Enable events with PubSub topic**.
+11. Select (⋮) next to **Pub/Sub topic**, then **Enable events with PubSub topic**.
 
-12. Enter the full Pub/Sub **Topic Name** and select **Add & Validate**. If you see an error, then review the previous steps to confirm your topic and permissions are correctly defined.
+12. Enter the full Pub/Sub **Topic Name** and select **Add & Validate**. If you see an error, review the previous steps to confirm your topic and permissions are defined correctly.
 
      ![Screenshot of OAuth confirmation](/images/integrations/nest/device_access_validate_pubsub.png)
 
@@ -252,15 +253,15 @@ See [Troubleshooting](#troubleshooting) below for steps to resolve the common mi
 
 1. If you haven't already, begin the setup flow in Home Assistant.  {% my config_flow_start badge domain=page.ha_domain %}
 
-2. Once you have entered all your project configuration data into Home Assistant, a new tab will open.  You will be prompted to choose a Google account. Use the same developer account you configured above.
+2. A new tab will open once you have entered all your project configuration data into Home Assistant.  You will be prompted to choose a Google account. Use the same developer account you configured above.
 
-3. The *Google Nest permissions* screen will allow you to choose which devices to configure and lets you select devices from multiple homes. You will likely want to enable everything, but you can leave out any feature you do not wish to use with Home Assistant.  Finish you selections and click Next.
+3. The *Google Nest permissions* screen will allow you to choose which devices to configure and lets you select devices from multiple homes. You will likely want to enable everything, but you can leave out any feature you do not wish to use with Home Assistant.  Finish your selections and click Next.
 
     ![Screenshot of Nest permissions authorization](/images/integrations/nest/oauth_approve.png)
 
 4. You will be redirected to another account selection page.
 
-5. You may see a warning screen that says *Google hasn't verified this app*.  This is because this process uses an unverified developer workflow. As long as you trust yourself, click *Continue* to proceed.
+5. You may see a warning screen that says *Google hasn't verified this app*.  This is because the developer of this app--which is *you*--has not been verified. As long as you trust yourself, click *Continue* to proceed.
 
     ![Screenshot OAuth warning](/images/integrations/nest/oauth_app_verification.png)
 
@@ -276,7 +277,7 @@ See [Troubleshooting](#troubleshooting) below for steps to resolve the common mi
 
 8. You will now see a page hosted by *My Home Assistant* asking if you would like to *Link account to Home Assistant?* Click **Link Account** to continue.
 
-9. If all went well, you will next configure events and Pub/Sub topic. Nest will automatically attempt to find a Pub/sub topic, either the one you created or one created by the Device Access Console.
+9. If all went well, you will next configure events and the Pub/Sub topic. Nest will automatically attempt to find a Pub/sub topic, either the one you created or one created by the Device Access Console.
 
      ![Screenshot of OAuth confirmation](/images/integrations/nest/config_flow_with_topic.png)
 
@@ -286,7 +287,7 @@ See [Troubleshooting](#troubleshooting) below for steps to resolve the common mi
 
      ![Screenshot of OAuth confirmation](/images/integrations/nest/config_flow_subscription.png)
 
-12. You will be prompted to name and assign locations to the devices discovered by the integration.  You can enter values in each field and click Finish, or just click Skip & Finish to do it later.
+12. You will be given the option to rename the integration's devices and assign their locations.  You can do so now and click **Finish** or click **Skip & Finish** to do it later.
 
 13. If all went well, you are ready to go!
 
